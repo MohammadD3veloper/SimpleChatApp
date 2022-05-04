@@ -1,0 +1,75 @@
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>D3V-Chat | Login</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Login Now</div>
+            <div class="card-body">
+                {% if error %}
+                <p class="text-danger">{{error}}</p>
+                {% endif %}
+                <form class="form-group" method="POST" id="form">
+                    {% csrf_token %}
+                    {% if form.username.errors %}
+                    <p class="text-danger">{{form.username.errors}}</p>
+                    {% endif %}
+                    <label for="id_username">Username:</label>
+                    {{form.username|add_class:'form-control'}}
+                    {% if form.email.errors %}
+                    <p class="text-danger">{{form.email.errors}}</p>
+                    {% endif %}
+                    <label for="id_email">Email:</label>
+                    {{form.email|add_class:"form-control"}}
+                    {% if form.code.errors %}
+                    <p class="text-danger">{{form.code.errors}}</p>
+                    {% endif %}
+                    <label for="id_code">Code:</label>
+                    <div class="d-flex" dir="rtl">
+                        <a id="send" class="btn btn-primary">Send</a>
+                        {{form.code|add_class:"form-control"}}
+                    </div>
+                    <button type="submit" form="form" class="btn btn-success">Login Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $("#send").click(() => {
+        var email = $("#id_email").val();
+        if (!email) {
+            alert('Email shouldnt be empty')
+        } else {
+            $.ajax({
+                url: '{% url "user:send_code" %}',
+                headers: {
+                    "X-CsrfToken": "{{csrf_token}}"
+                },
+                data: {
+                    'email': email
+                },
+                method: "POST",
+                success: function(e) {
+                    if (e['success']) {
+                        alert(e['success'])
+                    }
+                }
+            })
+        }
+    })
+</script>
+
+</html>

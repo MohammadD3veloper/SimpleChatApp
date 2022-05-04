@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4 mb-4">
+    <div class="card">
+        <div class="card-header">
+            Your Profile
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% if user.profile_photo %}
+                <div class="col-lg-6">profile photo: <img src="{{user.profile_photo.url}}" height="60" width="60"></div>
+                {% else %}
+                <div class="col-lg-6">profile photo: <img src="{% static 'avatar.png' %}" height="60" width="60"></div>
+                {% endif %}
+                <div class="col-lg-6">username: {{user.username}} </div>
+                <div class="col">fullname: {{user.first_name}} {{user.last_name}}</div>
+                <div class="col">about: {{user.about}}</div>
+            </div>
+            <a href="{% url 'user:update' user.pk %}" class="btn btn-success">Edit</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Your Recent Rooms
+        </div>
+        <div class="card-body">
+            {% for i in user.member_on.all %}
+            <div class="card">
+                <div class="card-header">
+                    {{i.title}}
+                </div>
+                <div class="card-body">
+                    {{i.description}}
+                    <div>
+                        <a href="{{i.get_absolute_url}}" class="btn btn-primary">Join chat</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-danger">You arent member on any rooms.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            You're Admin on
+        </div>
+        <div class="card-body">
+            {% for i in user.admin_on.all %}
+            <div class="card">
+                <div class="card-header">
+                    {{i.title}}
+                </div>
+                <div class="card-body">
+                    {{i.description}}
+                    <div>
+                        <a href="{{i.get_absolute_url}}" class="btn btn-primary">Join chat</a>
+                        <a href="{{i.get_absolute_url_edit}}" class="btn btn-warning">Edit Chat</a>
+                        <a href="{% url 'chat:delete' i.address %}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-danger">You arent admin on any rooms.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4 mb-4">
+    <div>
+        <form class="form-group d-flex col-lg-6 col-sm-12 m-auto" method="GET" action=".">
+            <input class="form-control" type="search" name="query" id="q" placeholder="Enter Chat Code...">
+            <input class="btn btn-primary" type="submit" value="Search">
+        </form>
+    </div>
+    <div class="row mt-4">
+        {% for i in chats %}
+        {% if not i.private %}
+        <div class="card">
+            <div class="card-header">
+                {{i.title}}
+            </div>
+            <div class="card-body">
+                {{i.description}}
+                <div>
+                    <a href="{{i.get_absolute_url}}" class="btn btn-primary">Join chat</a>
+                    {% if i.admin == request.user %}
+                    <a href="{{i.get_absolute_url_edit}}" class="btn btn-warning">Edit Chat</a>
+                    <a href="{% url 'chat:delete' i.address %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% if chat_results %}
+        <div class="card">
+            <div class="card-header">
+                {{chat_results.title}}
+            </div>
+            <div class="card-body">
+                {{chat_results.description}}
+                <div>
+                    <a href="{{chat_results.get_absolute_url}}" class="btn btn-primary">Join chat</a>
+                    {% if chat_results.admin == request.user %}
+                    <a href="{{chat_results.get_absolute_url_edit}}" class="btn btn-warning">Edit Chat</a>
+                    <a href="{% url 'chat:delete' chat_results.address %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

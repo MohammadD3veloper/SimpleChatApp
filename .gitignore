@@ -1,0 +1,5 @@
+chat/__pycache__/
+chat/migrations/*
+simple_chat/__pycache__
+users/__pycache__
+users/migrations/*

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<style>
+    .board {
+        color: black;
+        height: 120px;
+        width: 300px;
+        box-shadow: 0px 0px 10px 0px black;
+    }
+
+
+    a {
+        text-decoration: none;
+    }
+</style>
+
+
+<div class="container mt-4 mb-4">
+    <div class="card">
+        <div class="card-header">
+            D3V-Chat SocialNetwork
+        </div>
+        <div class="card-body">
+            <div class="text-center m-auto">
+                <h2>Welcome to D3V-Chat</h2>
+                <p>Do you wanna chat anonymously with your fiends?<br></p>
+                <div class="text-center m-auto">
+                    <p>
+                        well, our website will make it for you.
+                        start by registration in D3V-Chat
+                    </p>
+                    <a href="{% url 'user:login' %}" class="btn btn-success mx-4">Register Now</a>
+                </div>
+                <div class="row mt-5">
+                    <div class="col">
+                        <a href="{% url 'chat:create' %}">
+                            <div class="board bg-info">
+                                <h5>Create New Chat</h5>
+                                <hr>
+                                <p>Create Chat then chat with your friends</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'chat:list' %}">
+                            <div class="board bg-danger">
+                                <h5>All Chats</h5>
+                                <hr>
+                                <p>Select to see all of available chats.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'chat:about_or_contact' 'contact' %}">
+                            <div class="board bg-warning">
+                                <h5>Contact us</h5>
+                                <hr>
+                                <p>Select to contact us for reporting.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
